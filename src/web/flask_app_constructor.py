@@ -1,12 +1,13 @@
-from flask import Flask, request, abort, make_response
-import json
 from http import HTTPStatus
+from flask import Flask, request, abort
 
-from suggestions import CitySuggestionsQuery, CitySuggestionsResponse
+from src.web.flask_utils import pretty_jsonify
+from src.suggestions.service import CitySuggestionsQuery
 
 QUERY_PARAMETER = 'q'
 LONGITUDE_PARAMETER = 'longitude'
 LATITUDE_PARAMETER = 'latitude'
+
 
 def construct_app(city_suggestions):
 
@@ -38,13 +39,5 @@ def convert_to_float_if_exists(parameter_string):
     return float(parameter_string)
 
 
-def pretty_jsonify(response_dict):
-    """
-        Pretty Json display for human consumption.
-    """
-    response = make_response(json.dumps(response_dict, indent=4))
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-    response.headers['mimetype'] = 'application/json'
-    response.status_code = HTTPStatus.OK
-    return response
+
 

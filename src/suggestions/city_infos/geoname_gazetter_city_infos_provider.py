@@ -10,6 +10,7 @@ class GeonameGazetterFileCityInfoProvider:
                           for raw_city_infos in geoname_formatted_city_info_list]
         return city_info_list
 
+
 def _load_geoname_city_file(tsv_path):
     with open(tsv_path, 'r', encoding='utf8') as tsv_file:
         column_names = _tokenize_line(next(tsv_file))

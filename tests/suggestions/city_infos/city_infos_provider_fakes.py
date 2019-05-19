@@ -11,10 +11,6 @@ FAKE_NAME_LENGTH = 10
 SOME_RANDOM_SEED = 4456456
 
 
-def get_random_letter(random_generator):
-    return random_generator.choice(string.ascii_lowercase)
-
-
 class FakeCityInfosProvider:
 
     def __init__(self):
@@ -44,5 +40,25 @@ class FakeCityInfosProvider:
 
     def fill_with_random_data(self, city_count):
         for i in range(city_count):
-            fake_name = ''.join(get_random_letter(self.random_generator) for i in range(FAKE_NAME_LENGTH))
-            self.add_city_infos({'name' : fake_name})
+            self.add_city_infos(generate_fake_city_infos(random_generator=self.random_generator))
+
+
+def generate_fake_city_infos(fixed_data={}, random_generator=random.Random()):
+    return {
+        'name': fixed_data.get('name', _generate_fake_city_name(random_generator)),
+        'alt_names': fixed_data.get('alt_names', []),
+        'coordinates': {
+            'lat': fixed_data.get('coordinates', {}).get('lat', DEFAULT_LATITUDE),
+            'long': fixed_data.get('coordinates', {}).get('long', DEFAULT_LONGITUDE),
+        },
+        'country': fixed_data.get('country', DEFAULT_COUNTRY),
+    }
+
+
+def _generate_random_letter(random_generator):
+    return random_generator.choice(string.ascii_lowercase)
+
+
+def _generate_fake_city_name(random_generator=random.Random()):
+    fake_name = ''.join(_generate_random_letter(random_generator) for i in range(FAKE_NAME_LENGTH))
+

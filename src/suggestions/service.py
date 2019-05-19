@@ -41,7 +41,7 @@ class CitySuggestionsService:
         cities_with_scores = [(city_infos, self.city_scorer.compute_score_for_city(city_infos, query))
                               for city_infos in cities_infos]
         selected_cities_with_score = self._select_best_suggestions(cities_with_scores)
-        city_suggestions = [_build_city_suggestion_from_city_with_score(city_infos, score)
+        city_suggestions = [_build_city_suggestion_dto(city_infos, score)
                             for city_infos, score in selected_cities_with_score]
 
         return CitySuggestionsResponse(suggestions=city_suggestions)
@@ -51,7 +51,7 @@ class CitySuggestionsService:
         return itertools.islice(cities_sorted_by_score, self.CITY_COUNT_TO_KEEP)
 
 
-def _build_city_suggestion_from_city_with_score(city_infos, score):
+def _build_city_suggestion_dto(city_infos, score):
     return CitySuggestion(
         name=city_infos['name'],
         longitude=city_infos['coordinates']['long'],

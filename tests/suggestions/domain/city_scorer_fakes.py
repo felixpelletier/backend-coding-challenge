@@ -13,3 +13,14 @@ class FakeCityScorer:
 
     def set_score_for_city(self, city_name, score):
         self._city_scores_by_name[city_name] = score
+
+
+class FakeSuggestionMetric:
+
+    def __init__(self, default_score=1.0):
+        self.default_score = default_score
+
+    def compute_score(self, city_infos, query):
+        return self.default_score
+
+

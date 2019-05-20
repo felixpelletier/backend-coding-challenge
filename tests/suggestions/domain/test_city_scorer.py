@@ -43,3 +43,17 @@ def test_given_multiple_metrics_with_a_nonzero_weight_then_its_score_the_weighed
     score = default_city_scorer.compute_score_for_city(SOME_FAKE_CITY, SOME_QUERY)
 
     assert pytest.approx(expected_score) == score
+
+
+def test_given_multiple_metrics_when_one_of_them_returns_none_it_is_ignored(default_city_scorer):
+    expected_score = 0.56
+    metric1 = city_scorer_fakes.FakeSuggestionMetric(None)
+    metric2 = city_scorer_fakes.FakeSuggestionMetric(0.4)
+    metric3 = city_scorer_fakes.FakeSuggestionMetric(0.8)
+    default_city_scorer.add_metric(metric1, 4)
+    default_city_scorer.add_metric(metric2, 12)
+    default_city_scorer.add_metric(metric3, 8)
+
+    score = default_city_scorer.compute_score_for_city(SOME_FAKE_CITY, SOME_QUERY)
+
+    assert pytest.approx(expected_score) == score

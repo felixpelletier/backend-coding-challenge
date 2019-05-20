@@ -1,6 +1,8 @@
 
-DEFAULT_CITY_SCORE = 0.0
+from src.suggestions.domain import city_scorer
 
+
+DEFAULT_CITY_SCORE = 0.0
 
 class FakeCityScorer:
 
@@ -15,7 +17,7 @@ class FakeCityScorer:
         self._city_scores_by_name[city_name] = score
 
 
-class FakeSuggestionMetric:
+class FakeSuggestionMetric(city_scorer.SuggestionMetric):
 
     def __init__(self, default_score=1.0):
         self.default_score = default_score

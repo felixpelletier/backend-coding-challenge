@@ -3,20 +3,8 @@ from dataclasses import dataclass, field
 from typing import List
 import itertools
 
-
-@dataclass
-class CitySuggestionsQuery:
-    query: str
-    longitude: float = None
-    latitude: float = None
-
-
-@dataclass
-class CitySuggestion:
-    name: str
-    longitude: float
-    latitude: float
-    score: float
+from src.suggestions.city_infos import provider_interface
+from src.suggestions.domain.datatypes import CitySuggestion, CitySuggestionsQuery
 
 
 @dataclass
@@ -28,7 +16,7 @@ class CitySuggestionsService:
 
     CITY_COUNT_TO_KEEP = 5
 
-    def __init__(self, city_info_provider, city_scorer):
+    def __init__(self, city_info_provider: provider_interface.CityInfoProvider, city_scorer):
         self.city_info_provider = city_info_provider
         self.city_scorer = city_scorer
 

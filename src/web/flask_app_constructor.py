@@ -9,11 +9,11 @@ LONGITUDE_PARAMETER = 'longitude'
 LATITUDE_PARAMETER = 'latitude'
 
 
-def construct_app(city_suggestions):
+def construct_app(city_suggestions: service.CitySuggestionsResponse):
 
     app = Flask(__name__)
 
-    def convert_city_suggestion_to_dict(city_suggestion : service.CitySuggestion):
+    def convert_city_suggestion_to_dict(city_suggestion: service.CitySuggestion):
         return {
             "name": city_suggestion.name,
             "longitude": city_suggestion.longitude,

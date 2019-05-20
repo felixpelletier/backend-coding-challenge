@@ -1,5 +1,8 @@
 
-class GeonameGazetterFileCityInfoProvider:
+from src.suggestions.city_infos import provider_interface
+
+
+class GeonameGazetterFileCityInfoProvider(provider_interface.CityInfoProvider):
 
     def __init__(self, geoname_tsv_file_path):
         self.geoname_tsv_file_path = geoname_tsv_file_path

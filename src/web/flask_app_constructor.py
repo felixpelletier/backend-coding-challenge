@@ -27,7 +27,6 @@ def construct_app(city_suggestions):
                             for city_suggestion in city_suggestion_response.suggestions]
         }
 
-
     @app.route('/suggestions', methods=['GET'])
     def suggestions():
 

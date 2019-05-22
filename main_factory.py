@@ -9,7 +9,6 @@ GEONAME_GAZETTER_FILE_PATH = "data/cities_canada-usa.tsv"
 
 
 def create_application():
-    # There should be a factory here somewhere
     city_infos_provider = GeonameGazetterFileCityInfoProvider(GEONAME_GAZETTER_FILE_PATH)
 
     city_scorer_implementation = city_scorer.CityScorer()
@@ -19,3 +18,4 @@ def create_application():
 
     city_suggestions = CitySuggestionsService(city_infos_provider, city_scorer_implementation)
 
+    return city_suggestions

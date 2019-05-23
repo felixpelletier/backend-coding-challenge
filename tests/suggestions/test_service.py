@@ -23,7 +23,7 @@ SOME_OTHER_LATITUDE = 55.5
 
 def construct_query_from_dict(query_dict):
     return service.CitySuggestionsQuery(
-        query=query_dict.get('query'),
+        partial_name=query_dict.get('q'),
         longitude=query_dict.get("longitude", None),
         latitude=query_dict.get("latitude", None),
     )
@@ -46,7 +46,7 @@ def default_service(fake_city_infos_provider, fake_city_scorer):
 
 def test_given_empty_query_return_no_suggestions(default_service, fake_city_infos_provider):
     fake_city_infos_provider.fill_with_random_data(SOME_HIGH_CITY_COUNT)
-    query = construct_query_from_dict({'query': ""})
+    query = construct_query_from_dict({'q': ""})
 
     response = default_service.get_suggestions(query)
 
@@ -56,7 +56,7 @@ def test_given_empty_query_return_no_suggestions(default_service, fake_city_info
 def test_given_nonempty_query_and_enough_cities_return_at_least_one_suggestion(default_service,
                                                                                fake_city_infos_provider):
     fake_city_infos_provider.fill_with_random_data(SOME_HIGH_CITY_COUNT)
-    query = construct_query_from_dict({'query': SOME_NON_EMPTY_PARTIAL_CITY_NAME})
+    query = construct_query_from_dict({'q': SOME_NON_EMPTY_PARTIAL_CITY_NAME})
 
     response = default_service.get_suggestions(query)
 
@@ -66,7 +66,7 @@ def test_given_nonempty_query_and_enough_cities_return_at_least_one_suggestion(d
 def test_given_nonempty_query_and_enough_cities_return_five_suggestions(default_service,
                                                                         fake_city_infos_provider):
     fake_city_infos_provider.fill_with_random_data(SOME_HIGH_CITY_COUNT)
-    query = construct_query_from_dict({'query': SOME_NON_EMPTY_PARTIAL_CITY_NAME})
+    query = construct_query_from_dict({'q': SOME_NON_EMPTY_PARTIAL_CITY_NAME})
 
     response = default_service.get_suggestions(query)
 
@@ -82,7 +82,7 @@ def test_given_a_scorer_when_asking_suggestions_scores_are_computed_by_scorer(de
     fake_city_infos_provider.add_city_infos({"name": SOME_OTHER_CITY_NAME})
     fake_city_scorer.set_score_for_city(SOME_OTHER_CITY_NAME, SOME_OTHER_CITY_SCORE)
 
-    query = construct_query_from_dict({'query': SOME_NON_EMPTY_PARTIAL_CITY_NAME})
+    query = construct_query_from_dict({'q': SOME_NON_EMPTY_PARTIAL_CITY_NAME})
 
     response = default_service.get_suggestions(query)
 
@@ -108,7 +108,7 @@ def test_given_some_cities_when_asking_suggestions_city_coordinates_are_taken_fr
             "long": SOME_OTHER_LONGITUDE,
         },
     })
-    query = construct_query_from_dict({'query': SOME_NON_EMPTY_PARTIAL_CITY_NAME})
+    query = construct_query_from_dict({'q': SOME_NON_EMPTY_PARTIAL_CITY_NAME})
 
     response = default_service.get_suggestions(query)
 

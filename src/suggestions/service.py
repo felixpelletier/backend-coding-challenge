@@ -22,7 +22,7 @@ class CitySuggestionsService:
 
     def get_suggestions(self, query: CitySuggestionsQuery) -> CitySuggestionsResponse:
 
-        if not query.query:
+        if not query.partial_name:
             return CitySuggestionsResponse(suggestions=[])
 
         cities_infos = self.city_info_provider.get_city_infos_list()

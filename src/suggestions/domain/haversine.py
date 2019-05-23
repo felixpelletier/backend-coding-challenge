@@ -21,7 +21,7 @@ def compute_harvesine_distance(location1, location2):
     h = haversine(delta_latitude) \
         + math.cos(latitude2_rad) * math.cos(latitude1_rad) * haversine(delta_longitude)
 
-    distance = 2 * EARTHS_RADIUS_KM * math.asin(math.sqrt(h))
+    distance = 2.0 * EARTHS_RADIUS_KM * math.asin(math.sqrt(h))
 
     return distance
 

@@ -29,18 +29,18 @@ def _convert_line_to_dict(column_names, city_row):
     return dict(zip(column_names, row_data))
 
 
-# TODO: Probably safer to use a dataclass
 def _adapt_city_infos_from_geoname_format(geoname_city_info):
     # TODO: Add test for not alt_names
-    return {
-        'name': geoname_city_info['ascii'],
-        'alt_names': geoname_city_info['alt_name'].split(',') if geoname_city_info['alt_name'] else [],
-        'coordinates': {
-            'lat': float(geoname_city_info['lat']),
-            'long': float(geoname_city_info['long'])
-        },
-        'country': geoname_city_info['country'],
-    }
+    # TODO: Add ascii name in alt_names
+    return provider_interface.CityInfos(
+        name=geoname_city_info['name'],
+        alt_names=geoname_city_info['alt_name'].split(',') if geoname_city_info['alt_name'] else [],
+        coordinates=provider_interface.CityCoordinates(
+            lat=float(geoname_city_info['lat']),
+            long=float(geoname_city_info['long'])
+        ),
+        country=geoname_city_info['country'],
+    )
 
 
 def _tokenize_line(line):

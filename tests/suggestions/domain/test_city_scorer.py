@@ -6,7 +6,7 @@ from src.suggestions.domain import city_scorer
 from src.suggestions.service import CitySuggestionsQuery
 
 SOME_FAKE_CITY = city_infos_provider_fakes.generate_fake_city_infos()
-SOME_QUERY = CitySuggestionsQuery(query="Unimportant query")
+SOME_QUERY = CitySuggestionsQuery(partial_name="Unimportant partial_name")
 
 
 @pytest.fixture

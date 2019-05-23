@@ -38,7 +38,7 @@ def construct_app(city_suggestions: service.CitySuggestionsResponse):
         except ValueError:
             return abort(HTTPStatus.BAD_REQUEST)
 
-        query = service.CitySuggestionsQuery(query=input_query, longitude=longitude, latitude=latitude)
+        query = service.CitySuggestionsQuery(partial_name=input_query, longitude=longitude, latitude=latitude)
         city_suggestions_response = city_suggestions.get_suggestions(query)
         response_dict = convert_city_suggestions_response_to_dict(city_suggestions_response)
 
@@ -47,7 +47,7 @@ def construct_app(city_suggestions: service.CitySuggestionsResponse):
     return app
 
 
-def convert_to_float_if_exists(parameter_string):
+def convert_to_float_if_exists(parameter_string: str):
     if parameter_string is None:
         return None
 

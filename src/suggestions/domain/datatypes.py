@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class CitySuggestionsQuery:
-    query: str
+    partial_name: str
     longitude: float = None
     latitude: float = None
 

@@ -6,17 +6,32 @@ from src.suggestions.domain import city_scorer
 from src.suggestions.domain import haversine
 
 
-class CityNameStartsWithSimilarityMetric(city_scorer.SuggestionMetric):
+class ExactNameMatchMetric(city_scorer.SuggestionMetric):
 
     def compute_score(self, city_infos, query):
-        partial_name = query.query
         all_known_city_names = [city_infos['name']] + city_infos['alt_names']
-        if any(self._starts_with(city_name, partial_name) for city_name in all_known_city_names):
+        if any(self._are_strings_equal_case_insensitive(city_name, query.partial_name)
+               for city_name in all_known_city_names):
             return 1.0
         else:
             return None
 
-    def _starts_with(self, city_name, partial_name):
+    @staticmethod
+    def _are_strings_equal_case_insensitive(str1: str, str2: str):
+        return str1.lower() == str2.lower()
+
+
+class NameStartsWithMetric(city_scorer.SuggestionMetric):
+
+    def compute_score(self, city_infos, query):
+        all_known_city_names = [city_infos['name']] + city_infos['alt_names']
+        if any(self._starts_with(city_name, query.partial_name) for city_name in all_known_city_names):
+            return 1.0
+        else:
+            return None
+
+    @staticmethod
+    def _starts_with(city_name, partial_name):
         return city_name.lower().startswith(partial_name.lower())
 
 
@@ -27,7 +42,8 @@ class RatcliffObershelpCityNameSimilarityMetric(city_scorer.SuggestionMetric):
         all_known_city_names = [city_infos['name']] + city_infos['alt_names']
         return max(self._compute_name_distance(city_name, partial_name) for city_name in all_known_city_names)
 
-    def _compute_name_distance(self, city_name, queried_name):
+    @staticmethod
+    def _compute_name_distance(city_name, queried_name):
         """
         The standard library already implements the algorithm
         """

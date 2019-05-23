@@ -13,7 +13,7 @@ def create_application():
 
     city_scorer_implementation = city_scorer.CityScorer()
     city_scorer_implementation.add_metric(metrics.NameStartsWithMetric(), 10)
-    city_scorer_implementation.add_metric(metrics.RatcliffObershelpCityNameSimilarityMetric(), 5)
+    city_scorer_implementation.add_metric(metrics.LevenshteinCityNameSimilarityMetric(), 5)
     city_scorer_implementation.add_metric(metrics.HaversineLocationDistanceMetric(), 2)
 
     city_suggestions = CitySuggestionsService(city_infos_provider, city_scorer_implementation)

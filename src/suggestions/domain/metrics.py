@@ -1,5 +1,6 @@
 
 import difflib
+import Levenshtein
 import math
 
 from src.suggestions.domain import city_scorer
@@ -47,6 +48,17 @@ class RatcliffObershelpCityNameSimilarityMetric(city_scorer.SuggestionMetric):
         The standard library already implements the algorithm
         """
         return difflib.SequenceMatcher(a=city_name, b=queried_name).ratio()
+
+
+class LevenshteinCityNameSimilarityMetric(city_scorer.SuggestionMetric):
+
+    def compute_score(self, city_infos, query):
+        all_known_city_names = [city_infos.name] + city_infos.alt_names
+        return max(self._compute_name_distance(city_name, query.partial_name) for city_name in all_known_city_names)
+
+    @staticmethod
+    def _compute_name_distance(city_name, queried_name):
+        return Levenshtein.ratio(city_name, queried_name)
 
 
 class HaversineLocationDistanceMetric(city_scorer.SuggestionMetric):

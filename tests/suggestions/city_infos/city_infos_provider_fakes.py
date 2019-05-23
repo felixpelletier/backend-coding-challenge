@@ -1,6 +1,9 @@
 import copy
 import random
 import string
+from typing import List
+
+from src.suggestions.city_infos import provider_interface
 
 DEFAULT_COUNTRY = 'CA'
 DEFAULT_LONGITUDE = 0.0
@@ -11,14 +14,14 @@ FAKE_NAME_LENGTH = 10
 SOME_RANDOM_SEED = 4456456
 
 
-class FakeCityInfosProvider:
+class FakeCityInfosProvider(provider_interface.CityInfoProvider):
 
     def __init__(self):
 
         self.random_generator = random.Random(SOME_RANDOM_SEED)
         self.fake_city_infos = []
 
-    def get_city_infos_list(self):
+    def get_city_infos_list(self) -> List[provider_interface.CityInfos]:
         return copy.deepcopy(self.fake_city_infos)
 
     def add_city_infos(self, city_infos):
@@ -28,15 +31,15 @@ class FakeCityInfosProvider:
         :param city_infos: Some city infos, as given by any city info provider.
                            "name" is mendatory, while the rest of the fields are optionnal.
         """
-        self.fake_city_infos.append({
-            'name': city_infos['name'],
-            'alt_names': city_infos.get('alt_names', []),
-            'coordinates': {
-                'lat': city_infos.get('coordinates', {}).get('lat', DEFAULT_LATITUDE),
-                'long': city_infos.get('coordinates', {}).get('long', DEFAULT_LONGITUDE),
-            },
-            'country': city_infos.get('country', DEFAULT_COUNTRY),
-        })
+        self.fake_city_infos.append(provider_interface.CityInfos(
+            name=city_infos['name'],
+            alt_names=city_infos.get('alt_names', []),
+            coordinates=provider_interface.CityCoordinates(
+                lat=city_infos.get('coordinates', {}).get('lat', DEFAULT_LATITUDE),
+                long=city_infos.get('coordinates', {}).get('long', DEFAULT_LONGITUDE),
+            ),
+            country=city_infos.get('country', DEFAULT_COUNTRY),
+        ))
 
     def fill_with_random_data(self, city_count):
         for i in range(city_count):

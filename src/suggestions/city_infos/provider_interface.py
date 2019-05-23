@@ -2,11 +2,6 @@
 import dataclasses
 from typing import List
 
-class CityInfoProvider:
-
-    def get_city_infos_list(self):
-        raise NotImplementedError
-
 
 @dataclasses.dataclass
 class CityCoordinates:
@@ -21,5 +16,10 @@ class CityInfos:
     coordinates: CityCoordinates
     country: str
 
+
+class CityInfoProvider:
+
+    def get_city_infos_list(self) -> List[CityInfos]:
+        raise NotImplementedError
 
 

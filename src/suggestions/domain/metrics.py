@@ -9,7 +9,7 @@ from src.suggestions.domain import haversine
 class ExactNameMatchMetric(city_scorer.SuggestionMetric):
 
     def compute_score(self, city_infos, query):
-        all_known_city_names = [city_infos['name']] + city_infos['alt_names']
+        all_known_city_names = [city_infos.name] + city_infos.alt_names
         if any(self._are_strings_equal_case_insensitive(city_name, query.partial_name)
                for city_name in all_known_city_names):
             return 1.0
@@ -24,7 +24,7 @@ class ExactNameMatchMetric(city_scorer.SuggestionMetric):
 class NameStartsWithMetric(city_scorer.SuggestionMetric):
 
     def compute_score(self, city_infos, query):
-        all_known_city_names = [city_infos['name']] + city_infos['alt_names']
+        all_known_city_names = [city_infos.name] + city_infos.alt_names
         if any(self._starts_with(city_name, query.partial_name) for city_name in all_known_city_names):
             return 1.0
         else:
@@ -38,9 +38,8 @@ class NameStartsWithMetric(city_scorer.SuggestionMetric):
 class RatcliffObershelpCityNameSimilarityMetric(city_scorer.SuggestionMetric):
 
     def compute_score(self, city_infos, query):
-        partial_name = query.query
-        all_known_city_names = [city_infos['name']] + city_infos['alt_names']
-        return max(self._compute_name_distance(city_name, partial_name) for city_name in all_known_city_names)
+        all_known_city_names = [city_infos.name] + city_infos.alt_names
+        return max(self._compute_name_distance(city_name, query.partial_name) for city_name in all_known_city_names)
 
     @staticmethod
     def _compute_name_distance(city_name, queried_name):
@@ -58,7 +57,7 @@ class HaversineLocationDistanceMetric(city_scorer.SuggestionMetric):
         if query.longitude is None or query.latitude is None:
             return None
 
-        city_location = (city_infos['coordinates']['lat'], city_infos['coordinates']['long'])
+        city_location = (city_infos.coordinates.lat, city_infos.coordinates.long)
         query_location = (query.latitude, query.longitude)
 
         distance = haversine.compute_harvesine_distance(city_location, query_location)

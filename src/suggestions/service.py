@@ -41,8 +41,8 @@ class CitySuggestionsService:
 
 def _build_city_suggestion_dto(city_infos, score):
     return CitySuggestion(
-        name=city_infos['name'],
-        longitude=city_infos['coordinates']['long'],
-        latitude=city_infos['coordinates']['lat'],
+        name=city_infos.name,
+        longitude=city_infos.coordinates.long,
+        latitude=city_infos.coordinates.lat,
         score=score,
     )

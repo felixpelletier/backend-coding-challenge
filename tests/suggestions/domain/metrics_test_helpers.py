@@ -1,5 +1,5 @@
 
-from typing import Tuple
+from typing import Tuple, List
 
 from src.suggestions.domain import city_scorer
 from src.suggestions import service
@@ -22,10 +22,10 @@ def get_score_from_city_name_metric(metric: city_scorer.SuggestionMetric, city_n
     return metric.compute_score(city_infos, query)
 
 
-def get_score_from_alt_city_name_metric(metric: city_scorer.SuggestionMetric, city_name: str, partial_name: str):
+def get_score_from_alt_city_name_metric(metric: city_scorer.SuggestionMetric, alt_city_names: List[str], partial_name: str):
     city_infos = provider_interface.CityInfos(
-        IRRELEVANT_CITY_NAME,
-        [IRRELEVANT_CITY_NAME, city_name],
+        "",
+        alt_city_names,
         IRRELEVANT_CITY_COORDINATES,
         IRRELEVANT_COUNTRY,
     )

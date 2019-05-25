@@ -19,11 +19,12 @@ def test_when_query_is_exactly_the_city_name_score_one(exact_match_metric):
 
 
 def test_when_query_is_exactly_at_least_one_of_the_alternative_city_names_score_one(exact_match_metric):
-    assert 1.0 == get_score_from_alt_city_name_metric(exact_match_metric, A_CITY_NAME, A_CITY_NAME)
+    alt_city_names = [A_DIFFERENT_CITY_NAME, A_CITY_NAME]
+    assert 1.0 == get_score_from_alt_city_name_metric(exact_match_metric, alt_city_names, A_CITY_NAME)
 
 
 def test_match_is_case_insensitive(exact_match_metric):
-    assert 1.0 == get_score_from_alt_city_name_metric(exact_match_metric, A_CITY_NAME.upper(), A_CITY_NAME.lower())
+    assert 1.0 == get_score_from_city_name_metric(exact_match_metric, A_CITY_NAME.upper(), A_CITY_NAME.lower())
 
 
 def test_when_query_different_from_city_name_score_none(exact_match_metric):

@@ -2,6 +2,7 @@
 import difflib
 import Levenshtein
 import math
+import unicodedata
 
 from src.suggestions.domain import city_scorer
 from src.suggestions.domain import haversine
@@ -54,11 +55,18 @@ class LevenshteinCityNameSimilarityMetric(city_scorer.SuggestionMetric):
 
     def compute_score(self, city_infos, query):
         all_known_city_names = [city_infos.name] + city_infos.alt_names
-        return max(self._compute_name_distance(city_name, query.partial_name) for city_name in all_known_city_names)
+        return max(self._compute_name_similarity(city_name, query.partial_name) for city_name in all_known_city_names)
 
     @staticmethod
-    def _compute_name_distance(city_name, queried_name):
-        return Levenshtein.ratio(city_name, queried_name)
+    def _compute_name_similarity(city_name, queried_name):
+        return Levenshtein.ratio(
+            LevenshteinCityNameSimilarityMetric._normalize_name(city_name),
+            LevenshteinCityNameSimilarityMetric._normalize_name(queried_name),
+        )
+
+    @staticmethod
+    def _normalize_name(name):
+        return unicodedata.normalize("NFD", name).lower()
 
 
 class HaversineLocationDistanceMetric(city_scorer.SuggestionMetric):

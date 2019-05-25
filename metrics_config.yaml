@@ -1,0 +1,8 @@
+NameStartsWith:
+  weight: 10
+
+LevenshteinCityNameSimilarity:
+  weight: 2
+
+HaversineLocationDistance:
+  weight: 2

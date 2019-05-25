@@ -6,7 +6,8 @@ from src.suggestions.domain import metrics
 
 
 def load_config_from_raw_text(config_text: str):
-    return yaml_metrics_factory._make_metrics_from_yaml_text(config_text)
+    factory = yaml_metrics_factory.YamlMetricsFactory.from_yaml_text(config_text)
+    return factory.make_metrics()
 
 
 def load_config_from_text(config_text: str):
@@ -15,9 +16,9 @@ def load_config_from_text(config_text: str):
         total_whitespace_per_line = ((len(line) - len(line.lstrip())) for line in non_empty_lines)
         whitespace_to_remove = min(total_whitespace_per_line)
         ajusted_config_text = "\n".join(line[whitespace_to_remove:] for line in config_text.splitlines())
-        return yaml_metrics_factory._make_metrics_from_yaml_text(ajusted_config_text)
+        return load_config_from_raw_text(ajusted_config_text)
     else:
-        return yaml_metrics_factory._make_metrics_from_yaml_text(config_text)
+        return load_config_from_raw_text(config_text)
 
 
 def load_config_from_dict(config_data: dict):

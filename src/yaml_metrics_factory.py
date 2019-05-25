@@ -11,7 +11,7 @@ def _make_metric(metric_name, metric_args: dict):
     return metrics.ExactNameMatchMetric(), 10.0
 
 
-def load_yaml(yaml_text):
+def _load_yaml(yaml_text):
     try:
         config = yaml.load(yaml_text)
     except yaml.scanner.ScannerError:
@@ -23,16 +23,34 @@ def load_yaml(yaml_text):
     return config
 
 
-def _make_metrics_from_yaml_text(yaml_text) -> Tuple[city_scorer.SuggestionMetric]:
+def _load_metrics(yaml_text):
+        if not yaml_text.strip():
+            return tuple()
 
-    if not yaml_text.strip():
-        return tuple()
+        config = _load_yaml(yaml_text)
 
-    config = load_yaml(yaml_text)
-
-    return tuple(_make_metric(metric_name, metric_args) for metric_name, metric_args in config.items())
+        return tuple(_make_metric(metric_name, metric_args) for metric_name, metric_args in config.items())
 
 
-def make_metrics(yaml_file_path):
-    with open(yaml_file_path, 'r') as yaml_file:
-        return _make_metrics_from_yaml_text(yaml_file.read())
+class YamlMetricsFactory:
+
+    def __init__(self, yaml_text):
+        self.metrics = None
+        self._yaml_text = yaml_text
+
+    def make_metrics(self) -> Tuple[city_scorer.SuggestionMetric]:
+        if self.metrics:
+            return self.metrics
+
+        self.metrics = _load_metrics(self._yaml_text)
+        del self._yaml_text
+        return self.metrics
+
+    @staticmethod
+    def from_yaml_text(yaml_text):
+        return YamlMetricsFactory(yaml_text)
+
+    @staticmethod
+    def from_file_path(yaml_file_path):
+        with open(yaml_file_path, 'r') as yaml_file:
+            return YamlMetricsFactory(yaml_file.read())

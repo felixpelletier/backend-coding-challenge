@@ -9,7 +9,7 @@ GEONAME_GAZETTER_FILE_PATH = "data/cities_canada-usa.tsv"
 METRICS_CONFIGURATION_PATH = "metrics_config.yaml"
 
 
-def create_application():
+def create_application(metrics_factory):
     city_infos_provider = GeonameGazetterFileCityInfoProvider(GEONAME_GAZETTER_FILE_PATH)
 
     city_scorer_implementation = city_scorer.CityScorer()

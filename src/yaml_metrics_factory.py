@@ -6,9 +6,37 @@ import yaml.scanner
 from src.suggestions.domain import metrics
 from src.suggestions.domain import city_scorer
 
+_name_to_class_map = {
+    "ExactNameMatch": metrics.ExactNameMatchMetric,
+    "NameStartsWith": metrics.NameStartsWithMetric,
+    "LevenshteinCityNameSimilarity": metrics.LevenshteinCityNameSimilarityMetric,
+    "HaversineLocationDistance": metrics.HaversineLocationDistanceMetric,
+}
+
+
+class WeightNotFoundError(RuntimeError):
+    pass
+
+
+class MetricNotFoundError(NameError):
+    pass
+
 
 def _make_metric(metric_name, metric_args: dict):
-    return metrics.ExactNameMatchMetric(), 10.0
+    try:
+        metric_class = _name_to_class_map[metric_name]
+    except KeyError:
+        raise MetricNotFoundError("Unknown metric \"%s\"" % metric_name)
+
+    if not metric_args:
+        metric_args = {}
+
+    try:
+        metric_weight = metric_args["weight"]
+    except KeyError:
+        raise WeightNotFoundError
+
+    return metric_class(), metric_weight
 
 
 def _load_yaml(yaml_text):

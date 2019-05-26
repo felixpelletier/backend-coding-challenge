@@ -5,7 +5,7 @@ from typing import List
 
 from src.suggestions.city_infos import provider_interface
 
-DEFAULT_COUNTRY = 'CA'
+DEFAULT_POPULATION = 1000
 DEFAULT_LONGITUDE = 0.0
 DEFAULT_LATITUDE = 0.0
 
@@ -38,7 +38,7 @@ class FakeCityInfosProvider(provider_interface.CityInfoProvider):
                 lat=city_infos.get('coordinates', {}).get('lat', DEFAULT_LATITUDE),
                 long=city_infos.get('coordinates', {}).get('long', DEFAULT_LONGITUDE),
             ),
-            country=city_infos.get('country', DEFAULT_COUNTRY),
+            population=city_infos.get('population', DEFAULT_POPULATION),
         ))
 
     def fill_with_random_data(self, city_count):
@@ -54,7 +54,7 @@ def generate_fake_city_infos(fixed_data={}, random_generator=random.Random()):
             'lat': fixed_data.get('coordinates', {}).get('lat', DEFAULT_LATITUDE),
             'long': fixed_data.get('coordinates', {}).get('long', DEFAULT_LONGITUDE),
         },
-        'country': fixed_data.get('country', DEFAULT_COUNTRY),
+        'population': fixed_data.get('population', DEFAULT_POPULATION),
     }
 
 

@@ -39,7 +39,7 @@ def _adapt_city_infos_from_geoname_format(geoname_city_info):
             lat=float(geoname_city_info['lat']),
             long=float(geoname_city_info['long'])
         ),
-        country=geoname_city_info['country'],
+        population=int(geoname_city_info['population']),
     )
 
 

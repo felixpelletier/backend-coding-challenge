@@ -100,3 +100,11 @@ def test_haversine_metric():
     assert_right_metric_is_created(config_text, metrics.HaversineLocationDistanceMetric)
 
 
+def test_log_population_metric():
+    config_text = """
+        LogarithmicPopulation:
+            weight: 20
+    """
+    assert_right_metric_is_created(config_text, metrics.LogarithmicPopulationMetric)
+
+

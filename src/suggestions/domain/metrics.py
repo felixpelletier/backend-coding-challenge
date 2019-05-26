@@ -106,3 +106,15 @@ class HaversineLocationDistanceMetric(city_scorer.SuggestionMetric):
             return 1.0 / math.pow(distance, 1 / self.FALLOFF)
         else:
             return 1.0
+
+
+class LogarithmicPopulationMetric(city_scorer.SuggestionMetric):
+
+    _HIGHEST_POPULATION = 8000000
+
+    def compute_score(self, city_infos, query):
+        population = min(city_infos.population, self._HIGHEST_POPULATION)
+        if population <= 0:
+            return 0.0
+
+        return math.log10(population)/math.log10(self._HIGHEST_POPULATION)

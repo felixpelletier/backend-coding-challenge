@@ -11,6 +11,7 @@ _name_to_class_map = {
     "NameStartsWith": metrics.NameStartsWithMetric,
     "LevenshteinCityNameSimilarity": metrics.LevenshteinCityNameSimilarityMetric,
     "HaversineLocationDistance": metrics.HaversineLocationDistanceMetric,
+    "LogarithmicPopulation": metrics.LogarithmicPopulationMetric,
 }
 
 

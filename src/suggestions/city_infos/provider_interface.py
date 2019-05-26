@@ -14,7 +14,7 @@ class CityInfos:
     name: str
     alt_names: List[str]
     coordinates: CityCoordinates
-    country: str
+    population: int
 
 
 class CityInfoProvider:

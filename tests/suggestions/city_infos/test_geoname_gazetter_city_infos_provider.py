@@ -23,6 +23,7 @@ defaults = [
     ("admin2", ""),
     ("admin3", ""),
     ("admin4", "3242"),
+    ("population", "50000"),
     ("elevation", ""),
     ("dem", ""),
     ("tz", "America/Vancouver"),
@@ -101,9 +102,9 @@ def test_coordinates():
         assert coordinates.lat == expected_lat
         assert coordinates.long == expected_long
 
-def test_country():
-    expected_country = "BR"
+def test_population():
+    expected_population = 678963
     city_infos = get_default_line_attributes()
-    city_infos["country"] = expected_country
+    city_infos["population"] = str(expected_population)
     with generate_test_file([city_infos]) as geoname_provider:
-        assert geoname_provider.get_city_infos_list()[0].country == expected_country
+        assert geoname_provider.get_city_infos_list()[0].population == expected_population

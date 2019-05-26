@@ -1,8 +1,11 @@
 NameStartsWith:
-  weight: 10
+  weight: 3
 
 LevenshteinCityNameSimilarity:
-  weight: 2
+  weight: 7
 
 HaversineLocationDistance:
-  weight: 2
+  weight: 3
+
+LogarithmicPopulation:
+  weight: 4

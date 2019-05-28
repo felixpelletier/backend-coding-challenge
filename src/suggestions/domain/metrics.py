@@ -115,7 +115,6 @@ class HaversineLocationDistanceMetric(city_scorer.SuggestionMetric):
         query_location = (query.latitude, query.longitude)
 
         distance = haversine.compute_harvesine_distance(city_location, query_location)
-        print(distance)
 
         # Normal bell distribution with maximum at 1.0
         score = math.exp(-(1.0/2.0) * math.pow(distance/self.STANDARD_DEVIATION, 2))

@@ -90,8 +90,22 @@ class LevenshteinCityNameSimilarityMetric(city_scorer.SuggestionMetric):
 
 
 class HaversineLocationDistanceMetric(city_scorer.SuggestionMetric):
+    """
+        This metric uses the haversine distance between the city and the query.
+        i.e: the approximate distance if the earth was a perfect sphere.
 
-    FALLOFF = 6.0
+        The score is mapped on a bell curve, with a greater distance scoring lower.
+        As an example:
+        --------------------
+        | distance | score |
+        |    0     |  1.0  |
+        |   300    |  0.83 |
+        |  1000    |  0.14 |
+        --------------------
+
+    """
+
+    STANDARD_DEVIATION = 500.0
 
     def compute_score(self, city_infos, query):
         if query.longitude is None or query.latitude is None:
@@ -101,11 +115,11 @@ class HaversineLocationDistanceMetric(city_scorer.SuggestionMetric):
         query_location = (query.latitude, query.longitude)
 
         distance = haversine.compute_harvesine_distance(city_location, query_location)
+        print(distance)
 
-        if distance > 0.0:
-            return 1.0 / math.pow(distance, 1 / self.FALLOFF)
-        else:
-            return 1.0
+        # Normal bell distribution with maximum at 1.0
+        score = math.exp(-(1.0/2.0) * math.pow(distance/self.STANDARD_DEVIATION, 2))
+        return max([0.0, score])
 
 
 class LogarithmicPopulationMetric(city_scorer.SuggestionMetric):

@@ -3,6 +3,100 @@
 # Coveo Backend Coding Challenge
 (inspired by https://github.com/busbud/coding-challenge-backend-c)
 
+## Link to Heroku
+
+[https://felixpelletier-coveo-challenge.herokuapp.com/suggestions](https://felixpelletier-coveo-challenge.herokuapp.com/suggestions?q=)
+
+## Implementation
+
+The "suggestion engine" uses multiple metrics with configurable weights.
+Each metric is given the full query and some information about a city.
+They assign a score from 0.0 to 1.0 for each city.
+Scores are then combined according to the metric's given weight.
+
+### Metrics
+
+#### NameStartsWith:
+ This metric assigns a perfect score to a query which is exactly the beginning of a city's name.
+ It is ignored from the score calculation if this is not the case.
+ This skews the results towards the right city if the user writes it perfectly.
+ 
+ Ex: With query "Queb", the city "Quebec" gets a perfect score.
+
+#### LevenshteinCityNameSimilarity: 
+  The score is computed according to number of edits needed to transform the query into the city's name.
+  
+#### HaversineLocationDistance:
+  The score is computed according to the city's distance to the location given in the query, if one was given. 
+ 
+#### LogarithmicPopulation:
+  This metric favors more populated cities, as they may be more likely to be searched by the user.  
+ 
+
+### Configuration
+
+Each metrics can be configured using the *metrics_config.yaml* file.
+
+There is currently only one parameter (the weight).
+
+Here's an example:
+
+```yaml
+NameStartsWith:
+  weight: 10
+
+LevenshteinCityNameSimilarity:
+  weight: 7
+
+HaversineLocationDistance:
+  weight: 3
+
+LogarithmicPopulation:
+  weight: 3
+```
+
+## Skill development
+
+- This wasn't my first Python project, but my I was a little rusty.
+
+This was my first time:
+- Trying out the type hints capabilities of Python.
+- Trying out Googles import style (full import path, import only modules). 
+- Using Flask.
+- Using Heroku.
+- Using Yaml.
+- Configuring Travis CI (more used to Jenkins).
+  
+## What would have been nice to try
+
+### Design
+
+ - Have the metrics be a little more modular, with the ability to add
+   some new ones simply by importing a new package.
+ - Adding the ability to configure each metric with their own specific options.
+ - Adding some logic between the metrics, such as checking distances only if the name is similar enough.
+ 
+### Performance
+
+If necessary:
+ - Have some way of pruning cities quickly. 
+   Maybe have some threshold on some metrics. 
+   If below a certain threshold, just prune the city.
+ - Add a cache for common queries.
+  
+### Tools
+ - Trying out a static type checker, such as mypy or Microsoft's pyright.
+ - Trying out a load tester, such as Locust.
+ - Adding a style checker and some linter (ex: pylint) as commit tests.
+ - Automating the requirements.txt generation on commit.
+
+************************************************************************************************************************
+
+# Original README
+
+# Coveo Backend Coding Challenge
+(inspired by https://github.com/busbud/coding-challenge-backend-c)
+
 ## Requirements
 
 Design a REST API endpoint that provides auto-complete suggestions for large cities.

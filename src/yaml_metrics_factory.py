@@ -3,8 +3,8 @@ from typing import Tuple
 import yaml
 import yaml.scanner
 
-from src.suggestions.domain import metrics
-from src.suggestions.domain import city_scorer
+from src.suggestions.scoring import metrics
+from src.suggestions.scoring import city_scorer
 
 _name_to_class_map = {
     "ExactNameMatch": metrics.ExactNameMatchMetric,
@@ -42,7 +42,7 @@ def _make_metric(metric_name, metric_args: dict):
 
 def _load_yaml(yaml_text):
     try:
-        config = yaml.load(yaml_text)
+        config = yaml.load(yaml_text, Loader=yaml.Loader)
     except yaml.scanner.ScannerError:
         raise ValueError("Invalid Yaml file")
 

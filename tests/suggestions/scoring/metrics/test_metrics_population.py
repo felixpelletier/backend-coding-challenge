@@ -2,9 +2,9 @@
 import math
 import pytest
 
-from src.suggestions.domain import metrics
+from src.suggestions.scoring import metrics
 
-from tests.suggestions.domain.metrics_test_helpers import get_score_from_population_metric
+from tests.suggestions.scoring.metrics.metrics_test_helpers import get_score_from_population_metric
 
 WORLD_POPULATION = 8000000000
 A_HIGHLY_POPULATED_CITY = 100000

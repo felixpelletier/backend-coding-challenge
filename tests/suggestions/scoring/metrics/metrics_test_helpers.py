@@ -1,7 +1,7 @@
 
 from typing import Tuple, List
 
-from src.suggestions.domain import city_scorer
+from src.suggestions.scoring import city_scorer
 from src.suggestions import service
 from src.suggestions.city_infos import provider_interface
 

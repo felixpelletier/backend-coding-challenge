@@ -3,7 +3,7 @@ import pytest
 from src.suggestions import service
 
 from tests.suggestions.city_infos import city_infos_provider_fakes
-from tests.suggestions.domain import city_scorer_fakes
+from tests.suggestions.scoring import city_scorer_fakes
 
 SOME_HIGH_CITY_COUNT = 100
 SOME_NON_EMPTY_PARTIAL_CITY_NAME = "Quebe"

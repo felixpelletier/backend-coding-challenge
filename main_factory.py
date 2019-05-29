@@ -3,7 +3,7 @@ import os.path
 
 from src.suggestions.city_infos.geoname_gazetter_city_infos_provider import GeonameGazetterFileCityInfoProvider
 from src.suggestions.service import CitySuggestionsService
-from src.suggestions.domain import city_scorer
+from src.suggestions.scoring import city_scorer
 from src import yaml_metrics_factory
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))

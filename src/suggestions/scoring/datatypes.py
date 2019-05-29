@@ -1,11 +1,12 @@
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+
 
 @dataclass
 class CitySuggestionsQuery:
     partial_name: str
-    longitude: float = None
     latitude: float = None
+    longitude: float = None
 
 
 @dataclass

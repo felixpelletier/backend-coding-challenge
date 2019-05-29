@@ -1,9 +1,9 @@
 
 import pytest
 
-from src.suggestions.domain import metrics
+from src.suggestions.scoring import metrics
 
-from tests.suggestions.domain.metrics_test_helpers import get_score_from_coordinates_metric
+from tests.suggestions.scoring.metrics.metrics_test_helpers import get_score_from_coordinates_metric
 
 VERY_DISTANT_CITY_PAIR = ((-32.57, -60.40), (32.93, 119.83))
 EXACT_LOCATION_CITY_PAIR = ((-32.57, -60.40), (-32.57, -60.40))

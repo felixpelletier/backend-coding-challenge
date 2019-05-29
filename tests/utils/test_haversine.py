@@ -1,4 +1,4 @@
-from src.suggestions.domain import haversine
+from src.utils import haversine
 
 RELATIVE_TOLERANCE = 0.01
 

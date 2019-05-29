@@ -1,5 +1,5 @@
 
-from src.suggestions.domain import city_scorer
+from src.suggestions.scoring import city_scorer
 
 
 DEFAULT_CITY_SCORE = 0.0

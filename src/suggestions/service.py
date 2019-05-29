@@ -4,7 +4,7 @@ from typing import List
 import itertools
 
 from src.suggestions.city_infos import provider_interface
-from src.suggestions.domain.datatypes import CitySuggestion, CitySuggestionsQuery
+from src.suggestions.scoring.datatypes import CitySuggestion, CitySuggestionsQuery
 
 
 @dataclass

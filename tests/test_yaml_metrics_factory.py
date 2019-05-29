@@ -3,7 +3,7 @@ from typing import ClassVar
 import pytest
 import yaml
 from src import yaml_metrics_factory
-from src.suggestions.domain import metrics
+from src.suggestions.scoring import metrics
 
 
 def load_config_from_raw_text(config_text: str):

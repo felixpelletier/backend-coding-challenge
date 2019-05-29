@@ -1,8 +1,8 @@
 import pytest
 
 from tests.suggestions.city_infos import city_infos_provider_fakes
-from tests.suggestions.domain import city_scorer_fakes
-from src.suggestions.domain import city_scorer
+from tests.suggestions.scoring import city_scorer_fakes
+from src.suggestions.scoring import city_scorer
 from src.suggestions.service import CitySuggestionsQuery
 
 SOME_FAKE_CITY = city_infos_provider_fakes.generate_fake_city_infos()

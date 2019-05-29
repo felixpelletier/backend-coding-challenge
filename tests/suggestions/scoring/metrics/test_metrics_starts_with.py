@@ -1,10 +1,10 @@
 
 import pytest
 
-from src.suggestions.domain import metrics
+from src.suggestions.scoring import metrics
 
-from tests.suggestions.domain.metrics_test_helpers import get_score_from_city_name_metric
-from tests.suggestions.domain.metrics_test_helpers import get_score_from_alt_city_name_metric
+from tests.suggestions.scoring.metrics.metrics_test_helpers import get_score_from_city_name_metric
+from tests.suggestions.scoring.metrics.metrics_test_helpers import get_score_from_alt_city_name_metric
 
 A_CITY_NAME = "London"
 A_CITY_NAME_MISSING_LAST_LETTER = "Londo"

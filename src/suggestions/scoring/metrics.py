@@ -4,8 +4,8 @@ import Levenshtein
 import math
 import unicodedata
 
-from src.suggestions.domain import city_scorer
-from src.suggestions.domain import haversine
+from src.suggestions.scoring import city_scorer
+from src.utils import haversine
 
 
 def normalize_name_for_comparison(name):

@@ -1,7 +1,11 @@
 
+from src.suggestions.city_infos import provider_interface
+from src.suggestions.scoring import datatypes
+
+
 class SuggestionMetric:
 
-    def compute_score(self, city_infos, query):
+    def compute_score(self, city_infos: provider_interface.CityInfos, query: datatypes.CitySuggestionsQuery) -> float:
         """
         :param city_infos: All the city's infos.
         :param query: The full partial_name
@@ -20,7 +24,9 @@ class CityScorer:
     def add_metric(self, metric: SuggestionMetric, weight: float):
         self._metrics_with_weight.append((metric, weight))
 
-    def compute_score_for_city(self, city_infos, query) -> float:
+    def compute_score_for_city(self,
+                               city_infos: provider_interface.CityInfos,
+                               query: datatypes.CitySuggestionsQuery) -> float:
         total_weight = 0.0
         total_score = 0.0
         for metric, weight in self._metrics_with_weight:

@@ -51,6 +51,7 @@ def get_score_from_coordinates_metric(metric: city_scorer.SuggestionMetric,
 
     return metric.compute_score(city_infos, query)
 
+
 def get_score_from_population_metric(metric: city_scorer.SuggestionMetric,
                                      city_population: int):
     city_infos = provider_interface.CityInfos(

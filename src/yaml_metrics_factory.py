@@ -23,7 +23,7 @@ class MetricNotFoundError(NameError):
     pass
 
 
-def _make_metric(metric_name, metric_args: dict):
+def _make_metric(metric_name: str, metric_args: dict):
     try:
         metric_class = _name_to_class_map[metric_name]
     except KeyError:
@@ -40,7 +40,7 @@ def _make_metric(metric_name, metric_args: dict):
     return metric_class(), metric_weight
 
 
-def _load_yaml(yaml_text):
+def _load_yaml(yaml_text: str):
     try:
         config = yaml.load(yaml_text, Loader=yaml.Loader)
     except yaml.scanner.ScannerError:
@@ -52,13 +52,12 @@ def _load_yaml(yaml_text):
     return config
 
 
-def _load_metrics(yaml_text):
-        if not yaml_text.strip():
-            return tuple()
+def _load_metrics(yaml_text: str):
+    if not yaml_text.strip():
+        return tuple()
 
-        config = _load_yaml(yaml_text)
-
-        return tuple(_make_metric(metric_name, metric_args) for metric_name, metric_args in config.items())
+    config = _load_yaml(yaml_text)
+    return tuple(_make_metric(metric_name, metric_args) for metric_name, metric_args in config.items())
 
 
 class YamlMetricsFactory:

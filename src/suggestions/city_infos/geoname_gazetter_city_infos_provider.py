@@ -30,8 +30,6 @@ def _convert_line_to_dict(column_names, city_row):
 
 
 def _adapt_city_infos_from_geoname_format(geoname_city_info):
-    # TODO: Add test for not alt_names
-    # TODO: Add ascii name in alt_names
     return provider_interface.CityInfos(
         name=geoname_city_info['name'],
         alt_names=geoname_city_info['alt_name'].split(',') if geoname_city_info['alt_name'] else [],
@@ -44,5 +42,4 @@ def _adapt_city_infos_from_geoname_format(geoname_city_info):
 
 
 def _tokenize_line(line):
-    # TODO: Add test to check if any line ends with newline
     return line.rstrip("\n\r").split("\t")

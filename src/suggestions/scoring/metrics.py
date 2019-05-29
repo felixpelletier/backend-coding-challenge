@@ -1,14 +1,15 @@
 
-import difflib
-import Levenshtein
 import math
 import unicodedata
+
+import difflib
+import Levenshtein
 
 from src.suggestions.scoring import city_scorer
 from src.utils import haversine
 
 
-def normalize_name_for_comparison(name):
+def _normalize_name_for_comparison(name):
     return unicodedata.normalize("NFD", name).lower()
 
 
@@ -23,12 +24,12 @@ class ExactNameMatchMetric(city_scorer.SuggestionMetric):
         if any(self._are_strings_equal(city_name, query.partial_name)
                for city_name in all_known_city_names):
             return 1.0
-        else:
-            return None
+
+        return None
 
     @staticmethod
     def _are_strings_equal(str1: str, str2: str):
-        return normalize_name_for_comparison(str1) == normalize_name_for_comparison(str2)
+        return _normalize_name_for_comparison(str1) == _normalize_name_for_comparison(str2)
 
 
 class NameStartsWithMetric(city_scorer.SuggestionMetric):
@@ -41,13 +42,13 @@ class NameStartsWithMetric(city_scorer.SuggestionMetric):
         all_known_city_names = [city_infos.name] + city_infos.alt_names
         if any(self._starts_with(city_name, query.partial_name) for city_name in all_known_city_names):
             return 1.0
-        else:
-            return None
+
+        return None
 
     @staticmethod
     def _starts_with(city_name, partial_name):
-        normalized_city_name = normalize_name_for_comparison(city_name)
-        normalized_partial_name = normalize_name_for_comparison(partial_name)
+        normalized_city_name = _normalize_name_for_comparison(city_name)
+        normalized_partial_name = _normalize_name_for_comparison(partial_name)
         return normalized_city_name.startswith(normalized_partial_name)
 
 
@@ -84,8 +85,8 @@ class LevenshteinCityNameSimilarityMetric(city_scorer.SuggestionMetric):
     @staticmethod
     def _compute_name_similarity(city_name, queried_name):
         return Levenshtein.ratio(
-            normalize_name_for_comparison(city_name),
-            normalize_name_for_comparison(queried_name),
+            _normalize_name_for_comparison(city_name),
+            _normalize_name_for_comparison(queried_name),
         )
 
 
@@ -127,7 +128,7 @@ class LogarithmicPopulationMetric(city_scorer.SuggestionMetric):
 
     def compute_score(self, city_infos, query):
         population = min(city_infos.population, self._HIGHEST_POPULATION)
-        if population <= 0:
+        if population <= 1.0:
             return 0.0
 
         return math.log10(population)/math.log10(self._HIGHEST_POPULATION)
